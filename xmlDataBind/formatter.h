@@ -42,7 +42,14 @@ struct formatter_visitor_base : public type_visitor {
 };
 
 
-template<typename T>
+// static_assert using consteval: enforces compile-time consistency between
+// all_types and the formatter/visitor infrastructure. If all_types grows,
+// this fires immediately at compile time rather than silently misbehaving.
+static_assert(typelist_size<all_types>() == 5,
+    "all_types size changed; update visitor and formatter infrastructure accordingly");
+
+// Constrained with Visitable (C++20 concept): T must support accept().
+template<Visitable T>
 struct single_formatter_visitor : virtual public formatter_visitor_base {
     virtual void visit(T const& t) const override {
         fa->get().factory.template create<formatter<T>>()->generate(*fa, t);

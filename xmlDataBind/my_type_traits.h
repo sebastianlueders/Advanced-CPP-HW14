@@ -9,6 +9,13 @@ using std::is_base_of;
 using std::is_same;
 
 namespace mpcs {
+
+// C++20 concept: constrains template parameters to enumeration types.
+// Prepares for future reflection-based enum_variant (requires -freflection /
+// GCC trunk with P2996): template<Enumeration E> using enum_variant = ...;
+template<typename T>
+concept Enumeration = std::is_enum_v<T>;
+
 template<class D, class B> struct is_derived_from
     : public is_base_of<B, D> {
 };

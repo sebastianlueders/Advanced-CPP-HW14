@@ -24,7 +24,7 @@ template<class T, typename... Us>
 struct Length<typelist<T, Us...> >
 {
 	// We could just use sizeof...(Us),
-	// but let’s see how to do ourselves
+	// but letï¿½s see how to do ourselves
 	static int constexpr value = 1 + Length<typelist<Us...>>::value;
 };
 
@@ -213,5 +213,21 @@ template<class C, template<typename> class F>
 using FilterOut = Filter<C, Not<F>::template type>;
 template<class C, template<typename> class F>
 using FilterOut_t = FilterOut<C, F>;
+
+// C++17: General value tag type using deduced non-type template parameter.
+// Generalizes the specific event_t<e> pattern to any compile-time value.
+// With C++26 reflection this enables automatic enum_variant construction:
+//   template<Enumeration E> using enum_variant =
+//     [: substitute(^^std::variant, enumerators_of(^^E) | views::transform(make_vt)) :];
+template<auto V>
+struct vt {
+    static auto constexpr value = V;
+};
+
+// consteval guarantees compile-time-only evaluation (unlike constexpr, which
+// may run at runtime when its arguments are not constant expressions).
+template<typename T>
+consteval int typelist_size() { return Length<T>::value; }
+
 }
 #endif

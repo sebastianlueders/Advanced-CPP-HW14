@@ -182,6 +182,13 @@ struct type_visitor_helper<typelist<Ts...>> : public single_type_visitor<Ts>... 
 };
 using type_visitor = type_visitor_helper<all_types>;
 
+// C++20 concept: constrains types to those that participate in the
+// double-dispatch visitor pattern via an accept() method.
+template<typename T>
+concept Visitable = requires(T const& t, type_visitor const& v) {
+    t.accept(v);
+};
+
 struct scope {
     map<string, unique_ptr<type_base>> memberTypes;
     vector<data_member> dataMembers;
