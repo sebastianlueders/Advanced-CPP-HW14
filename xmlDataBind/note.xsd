@@ -1,0 +1,14 @@
+<?xml version="1.0"?> <!-- XML header specifying version 1.0-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"> <!-- Opens the schema definition and binds the "xs" namespace prefix to the XML schema standard-->
+  <xs:element name="note"> <!-- Declares a root XML element called "note"-->
+    <xs:complexType> <!-- Says note has a complex type (it contains child elements)-->
+      <xs:sequence> <!-- Child elements must appear in the below order-->
+        <xs:element name="to" type="xs:string"/> <!-- Declare a child element "to" that holds a string value-->
+        <xs:element name="from" type="xs:string"/> <!-- Declares a child element "from" that holds a string value-->
+        <xs:element name="body" type="xs:string"/> <!-- Declares a child element "body" that holds a string value-->
+
+      <!-- Closing Tags-->  
+      </xs:sequence> 
+    </xs:complexType>
+  </xs:element>
+</xs:schema>
